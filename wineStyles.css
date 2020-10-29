@@ -1,0 +1,98 @@
+    /* https://css-tricks.com/almanac/properties/b/box-shadow/ */
+/* .selectedWines {  } */
+  
+  h1{
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        text-shadow: 5px 5px 5px #555;
+  }
+  
+
+  html{
+    background: url(images/background7.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;    
+  }
+
+
+ 
+
+  /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_column_cards */
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /* Float four columns side by side */
+  .selectedWines {
+    float: left;
+    /* width: 25%; */
+    padding: 0 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+  
+    min-height: 200px;
+    width: 30vw;
+    /* margin: 100px auto; */
+    margin-left: 20px;
+    /* margin-right: 50px; */
+    /* margin-bottom: 50px; */
+    
+    border-radius: 5px;
+  }
+  
+  /* Remove extra left and right margins, due to padding */
+  .row {
+    margin: 0 -5px;
+    border-radius: 5px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+   
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .selectedWines {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+  /* Style the counter cards */
+  .wine {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    text-align: center;
+    background-color: #8d7ea0;
+  }
+
+  img {
+    border: 1px solid rgb(36, 143, 68);
+    border-radius: 6px;
+    padding: 5px;
+    width: 90px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  }
+  
+  
+  i:hover {
+    cursor: pointer;
+  }

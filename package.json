@@ -1,0 +1,14 @@
+{
+  "name": "nostate",
+  "version": "1.0.0",
+  "description": "No state pasta app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "D Russell",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^9.2.0"
+  }
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>add stuff</title>
+    <link rel="stylesheet" href="ratingStyles.css">
+    <link rel="stylesheet" href="addStyles.css">
+  </head>
+  <body>
+    <form>
+      <div>
+        <label>Name:</label>
+        <input type="text" id="name" autofocus>
+      </div>
+      <div>
+        <input type="checkbox" id="red" name="red" value="red">
+        <label for="red"> Red Wines</label><br>
+        <input type="checkbox" id="white" name="white" value="white">
+        <label for="white">White Wines</label><br>
+        <input type="checkbox" id="dessert" name="dessert" value="dessert">
+        <label for="dessert">Dessert Wines</label><br><br>
+      </div>
+      <div>
+        <label for="wineTypes">Choose a type:</label>
+        <select name="wineTypes" id="wineTypes">                   
+        </select>
+        <br><br>
+      </div>
+      <div>
+        <label>Year:</label>
+        <input type="number" id="year">
+      </div>
+      <div>
+        <label>Winery:</label>
+        <input type="text" id="winery">
+      </div>
+      <div>
+        <label>Year Purchased:</label>
+        <input type="number" id="yearPurchased">
+      </div>
+      
+      <div>
+        <label>Rating:</label>
+        <!-- https://codepen.io/lsirivong/pen/ekBxI -->
+        <fieldset id = ratings>    
+          <span class="star-cb-group">
+            <input type="radio" id="rating-10" name="rating" value="10" /><label for="rating-10">10</label>
+            <input type="radio" id="rating-9" name="rating" value="9" /><label for="rating-9">9</label>      
+            <input type="radio" id="rating-8" name="rating" value="8" /><label for="rating-8">8</label>
+            <input type="radio" id="rating-7" name="rating" value="7" /><label for="rating-7">7</label>
+            <input type="radio" id="rating-6" name="rating" value="6" /><label for="rating-6">6</label>     
+            <input type="radio" id="rating-5" name="rating" value="5" /><label for="rating-5">5</label>
+            <input type="radio" id="rating-4" name="rating" value="4" /><label for="rating-4">4</label>
+            <input type="radio" id="rating-3" name="rating" value="3" /><label for="rating-3">3</label>
+            <input type="radio" id="rating-2" name="rating" value="2" /><label for="rating-2">2</label>
+            <input type="radio" id="rating-1" name="rating" value="1" checked="checked"/><label for="rating-1">1</label>
+          </span>
+        </fieldset>
+        
+      </div>
+
+
+
+
+      <button type="submit">add item</button>
+    </form>
+
+    <!-- <script src="rating.js"></script> -->
+
+
+  <script>
+    const electron = require('electron')
+    const {ipcRenderer} = electron
+    const form = document.querySelector('form');
+    form.addEventListener('submit', submitForm);
+
+    const redWines = ['Cabernet', 'Cabernet Sauvignon', 'Chardonnay', 'Malbec', 'Merlot', 'Sirah/Shiraz', 'Pinot Noir', 'Port', 'Other Red Varieties', 'Red Blends'];
+    const whiteWines = ['Reisling', 'Sauvignon Blanc', 'Verdelho', 'Semillon', 'Chardonnay', 'Pinot Gris/Pinot Grigio', 'Other White Varieties', 'White Blends'];
+    const dessertWines = ['Eiswein', 'Sauternes', 'Other Dessery Varieties', 'Dessert Blends'];
+
+    let redChekbox = document.getElementById("red"); 
+    let whiteChekbox = document.getElementById("white"); 
+    let dessertChekbox = document.getElementById("dessert"); 
+    
+
+    let wineTypesDisplay = document.getElementById("wineTypes");
+
+    redChekbox.addEventListener("change",displayTypes);
+    whiteChekbox.addEventListener("change",displayTypes);
+    dessertChekbox.addEventListener("change",displayTypes);
+
+    function displayTypes()
+    {
+      wineTypesDisplay.innerHTML = `<option value="select">Select a type of wine</option>`;
+            
+      let wineTypes = [];
+
+      if(redChekbox.checked)
+      {
+        redWines.forEach(element => wineTypes.push(element));
+      }
+      if(whiteChekbox.checked)
+      {
+        whiteWines.forEach(element => wineTypes.push(element));
+      }
+      if(dessertChekbox.checked)
+      {
+        dessertWines.forEach(element => wineTypes.push(element));
+      }
+
+      wineTypes.sort();
+
+      for(var i=0;i<wineTypes.length;i++)
+      {
+        wineTypesDisplay.innerHTML+= `<option value="${wineTypes[i]}">${wineTypes[i]}</option>`;
+      }
+    }
+
+    function submitForm(e) {
+      e.preventDefault();
+      
+      
+      let type = wineTypesDisplay.value;
+      let category = "";
+
+      if(redWines.includes(type)){category="Red";}
+      if(whiteWines.includes(type)){category="White";}
+      if(dessertWines.includes(type)){category="Dessert";}
+
+      let wineRating=0;
+      
+      let rates = document.getElementsByName('rating');
+
+      for(let i = 0; i < rates.length; i++){
+          if(rates[i].checked){
+              wineRating = rates[i].value;
+          }
+      }
+
+      const wine = {
+          "name": document.getElementById("name").value,
+          "category": category,
+          "type": type,
+          "year": document.getElementById("year").value,
+          "winery": document.getElementById("winery").value,
+          "yearPurchased": document.getElementById("yearPurchased").value,
+          "rating": wineRating
+        }    
+        
+      ipcRenderer.send('item:add', wine);//send to main.
+    }
+  </script>
+  </body>
+</html>

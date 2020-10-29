@@ -1,0 +1,20 @@
+@import url(https://fonts.googleapis.com/css?family=Lily+Script+One);
+
+body {
+	margin:0;
+	font-family:arial,tahoma,sans-serif;
+	font-size:14px;
+    background:rgb(233, 240, 236);
+    padding: 5px;
+}
+
+form input, fieldset
+{
+    margin: 5px;
+}
+
+#ratings
+{
+    width: 65%;
+}
+

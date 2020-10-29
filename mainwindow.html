@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Wine List Maker</title>
+    <link rel="stylesheet" href="wineStyles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  </head>
+  <body>
+    <h1>Wine List Maker</h1>
+
+    <div id="display" class="row"></div>
+
+    <script>
+      const electron = require('electron');
+      const {ipcRenderer} = electron;
+      const display = document.getElementById("display");
+          
+      //catch add item
+      ipcRenderer.on('item:add', function(e,item)
+      {    
+        
+        let selectedWines = document.getElementsByClassName("selectedWines");
+        
+        display.innerHTML += `<div class="selectedWines">
+                                <i class="fa fa-trash-o" style="font-size:24px;color:rgb(71, 2, 71)"></i>
+                                <div class="wine">
+                                    <h3> Name: ${item.name}</h3> 
+                                    <p>Category: ${item.category}</p>
+                                    <p>Type: ${item.type}</p>
+                                    <p>Year: ${item.year}</p>
+                                    <p>Winery: ${item.winery}</p>
+                                    <p>Year Purchased: ${item.yearPurchased}</p>
+                                    <p>Rating: ${item.rating}</p>
+                                    <img src="images/${item.category}.jpg" alt="${item.category} Wine">
+                                </div>
+                              </div>
+                            `;
+                            let wineListDelete = document.getElementsByClassName("fa fa-trash-o");
+
+                            for(var i=0; i < wineListDelete.length; i++)
+                            {
+                              wineListDelete[i].onclick = function(){ 
+                                this.parentElement.remove();
+                              };
+                            }
+      });  
+
+      
+      //item clear
+      ipcRenderer.on('item:clear', function(){
+        document.getElementById("display").innerHTML="";
+      });
+
+    </script>
+<!-- 
+    <script src="accelerators  .js"></script> -->
+
+  </body>
+</html>
